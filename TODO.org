@@ -1,0 +1,26 @@
+* Initial test application
+** TODO Get app running and displaying GUI on device
+** TODO Add sensor pub/sub system
+** TODO Create module that generates fake system data to test
+*** TODO OBDII Module
+**** TODO RPM
+**** TODO Water Temp
+**** TODO Check Engine Light and Code Fetching
+*** TODO Weather Module
+**** TODO Temperature Outdoor and Indoor
+**** TODO Barometric Pressure
+**** TODO Humidity
+*** TODO Accessory Module
+**** TODO Secondary Battery Charge Level
+**** TODO Solar Panel Charging Level
+**** TODO Water Tank Level
+*** TODO GPS Module
+**** TODO Vehicle Speed
+**** TODO GPS Location
+**** TODO Elevation
+** TODO Create simple GUI elements to display data
+** TODO Subscribe GUI elements to sensor events
+** TODO Create higher level GUI elements
+*** TODO gauge
+*** TODO code display
+*** TODO dummy lights
