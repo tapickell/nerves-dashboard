@@ -1,9 +1,9 @@
 use Mix.Config
 
-config :scenic_ui, :viewport, %{
+config :dashboard, :viewport, %{
   name: :main_viewport,
-  # default_scene: {ScenicUi.Scene.Crosshair, nil},
-  default_scene: {ScenicUi.Scene.SysInfo, nil},
+  # default_scene: {Dashboard.Scene.Crosshair, nil},
+  default_scene: {Dashboard.Scene.SysInfo, nil},
   size: {800, 480},
   opts: [scale: 1.0],
   drivers: [

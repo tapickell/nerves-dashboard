@@ -1,8 +1,8 @@
 %{
-  "artificery": {:hex, :artificery, "0.4.0", "e0b8d3eb9dfe8f42c08a620f90a2aa9cef5dba9fcdfcecad5c2be451df159a77", [:mix], [], "hexpm"},
+  "artificery": {:hex, :artificery, "0.4.1", "90b1fcedb9034853b36dbea2174f9fc1172bd50b0686a723178103def5c9c1c8", [:mix], [], "hexpm"},
   "distillery": {:hex, :distillery, "2.0.12", "6e78fe042df82610ac3fa50bd7d2d8190ad287d120d3cd1682d83a44e8b34dfb", [:mix], [{:artificery, "~> 0.2", [hex: :artificery, repo: "hexpm", optional: false]}], "hexpm"},
-  "elixir_make": {:hex, :elixir_make, "0.5.0", "3d65ce6d537d2ce164c0311551a607b90ea7f91d85242a67f3c5e59693c3aa50", [:mix], [], "hexpm"},
-  "nerves": {:hex, :nerves, "1.4.0", "6709e21ddd4cff9ac126e49f2278452a31d602f1fe3604dae30649bc0869d737", [:mix], [{:distillery, "2.0.12", [hex: :distillery, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}], "hexpm"},
+  "elixir_make": {:hex, :elixir_make, "0.5.2", "96a28c79f5b8d34879cd95ebc04d2a0d678cfbbd3e74c43cb63a76adf0ee8054", [:mix], [], "hexpm"},
+  "nerves": {:hex, :nerves, "1.4.1", "bfbfec93d9f41abcad30a6b59e24c2d8ce3b5d746a5e9b1430a83f40871e05c4", [:mix], [{:distillery, "2.0.12", [hex: :distillery, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}], "hexpm"},
   "ring_logger": {:hex, :ring_logger, "0.6.1", "568dbd9eebf26c661427de5204d8a91adaa740993f3ac5aa450257f62b6e7178", [:mix], [], "hexpm"},
   "scenic": {:hex, :scenic, "0.9.0", "129594f918b4e2dd97465b95b4fb3582294ac6bb3e931f12edd09913743964eb", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
   "scenic_driver_glfw": {:hex, :scenic_driver_glfw, "0.9.1", "b64d345929007186c6b2ca603aec21b1fdde758d3eb32f8467a236e58ccd6a19", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}, {:scenic, "~> 0.9", [hex: :scenic, repo: "hexpm", optional: false]}], "hexpm"},

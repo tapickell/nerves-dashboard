@@ -1,4 +1,4 @@
-defmodule ScenicUi.Scene.SysInfo do
+defmodule Dashboard.Scene.SysInfo do
   use Scenic.Scene
   alias Scenic.Graph
 

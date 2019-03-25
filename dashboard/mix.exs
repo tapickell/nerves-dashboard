@@ -1,11 +1,11 @@
-defmodule ScenicUi.MixProject do
+defmodule Dashboard.MixProject do
   use Mix.Project
 
   @target System.get_env("MIX_TARGET") || "host"
 
   def project do
     [
-      app: :scenic_ui,
+      app: :dashboard,
       version: "0.1.0",
       elixir: "~> 1.7",
       target: @target,
@@ -30,7 +30,7 @@ defmodule ScenicUi.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {ScenicUi.Application, []},
+      mod: {Dashboard.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -41,6 +41,7 @@ defmodule ScenicUi.MixProject do
       {:nerves, "~> 1.3", runtime: false},
       {:shoehorn, "~> 0.4"},
       {:ring_logger, "~> 0.5"},
+      {:toolshed, "~> 0.2"},
       {:scenic, "~> 0.9"},
       {:scenic_sensor, "~> 0.7"}
     ] ++ deps(@target)
@@ -56,6 +57,7 @@ defmodule ScenicUi.MixProject do
   defp deps(target) do
     [
       {:nerves_runtime, "~> 0.6"},
+      {:nerves_init_gadget, "~> 0.4"},
       {:scenic_driver_nerves_rpi, "~> 0.9"},
       {:scenic_driver_nerves_touch, "~> 0.9"}
     ] ++ system(target)

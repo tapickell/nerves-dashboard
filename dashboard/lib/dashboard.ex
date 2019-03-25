@@ -1,4 +1,4 @@
-defmodule ScenicUi.Application do
+defmodule Dashboard.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -17,7 +17,7 @@ defmodule ScenicUi.Application do
   # List all child processes to be supervised
   def children("host") do
     import Supervisor.Spec, warn: false
-    main_viewport_config = Application.get_env(:scenic_ui, :viewport)
+    main_viewport_config = Application.get_env(:dashboard, :viewport)
 
     [
       supervisor(Scenic, viewports: [main_viewport_config])
@@ -26,7 +26,7 @@ defmodule ScenicUi.Application do
 
   def children(_target) do
     import Supervisor.Spec, warn: false
-    main_viewport_config = Application.get_env(:scenic_ui, :viewport)
+    main_viewport_config = Application.get_env(:dashboard, :viewport)
 
     [
       supervisor(Scenic, viewports: [main_viewport_config])

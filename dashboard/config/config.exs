@@ -1,32 +1,19 @@
 # This file is responsible for configuring your application
 # and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
-# Customize non-Elixir parts of the firmware. See
+# Customize non-Elixir parts of the firmware.  See
 # https://hexdocs.pm/nerves/advanced-configuration.html for details.
-
 config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
+
+config :logger, backends: [RingLogger]
 
 # Use shoehorn to start the main application. See the shoehorn
 # docs for separating out critical OTP applications such as those
 # involved with firmware updates.
-
 config :shoehorn,
-  init: [:nerves_runtime, :nerves_init_gadget],
+  init: [:nerves_runtime],
   app: Mix.Project.config()[:app]
-
-# Use Ringlogger as the logger backend and remove :console.
-# See https://hexdocs.pm/ring_logger/readme.html for more information on
-# configuring ring_logger.
-
-config :logger, backends: [RingLogger]
-
-# Authorize the device to receive firmware using your public key.
-# See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
-# on configuring nerves_firmware_ssh.
 
 keys =
   [
@@ -38,10 +25,10 @@ keys =
 
 if keys == [],
   do:
-    Mix.raise("""
-    No SSH public keys found in ~/.ssh. An ssh authorized key is needed to
-    log into the Nerves device and update firmware on it using ssh.
-    See your project's config.exs for this error message.
+Mix.raise("""
+No SSH public keys found in ~/.ssh. An ssh authorized key is needed to
+log into the Nerves device and update firmware on it using ssh.
+See your project's config.exs for this error message.
     """)
 
 config :nerves_firmware_ssh,
@@ -60,9 +47,8 @@ config :nerves_init_gadget,
   mdns_domain: "nerves.local",
   node_name: node_name,
   node_host: :mdns_domain
-
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations
 
-# import_config "#{Mix.target()}.exs"
+import_config "config.#{Mix.Project.config()[:target]}.exs"

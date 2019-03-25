@@ -1,4 +1,4 @@
-defmodule ScenicUi.Scene.Crosshair do
+defmodule Dashboard.Scene.Crosshair do
   use Scenic.Scene
 
   alias Scenic.ViewPort
