@@ -1,10 +1,13 @@
 * Initial test application
-** TODO Get app running and displaying GUI on device
-** TODO Add sensor pub/sub system
+** DONE Get app running and displaying GUI on device
+   CLOSED: [2019-03-25 Mon 13:53]
+** DONE Add sensor pub/sub system
+   CLOSED: [2019-03-25 Mon 15:32]
 ** TODO Create module that generates fake system data to test
 *** TODO OBDII Module
 **** TODO RPM
-**** TODO Water Temp
+**** DONE Water Temp
+     CLOSED: [2019-03-25 Mon 15:32]
 **** TODO Check Engine Light and Code Fetching
 *** TODO Weather Module
 **** TODO Temperature Outdoor and Indoor

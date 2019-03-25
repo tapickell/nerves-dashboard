@@ -29,6 +29,7 @@ defmodule Dashboard.Application do
     main_viewport_config = Application.get_env(:dashboard, :viewport)
 
     [
+      supervisor(Dashboard.Sensor.Supervisor, []),
       supervisor(Scenic, viewports: [main_viewport_config])
     ]
   end

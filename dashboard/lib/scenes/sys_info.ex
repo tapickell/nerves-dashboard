@@ -1,6 +1,9 @@
 defmodule Dashboard.Scene.SysInfo do
   use Scenic.Scene
   alias Scenic.Graph
+  alias Scenic.Sensor
+
+  require Logger
 
   import Scenic.Primitives
 
@@ -56,10 +59,24 @@ defmodule Dashboard.Scene.SysInfo do
            end,
            t: {10, 240}
          )
+         |> group(
+          fn g ->
+            g
+            |> text("Temperature")
+            |> text(
+              "",
+            id: :temperature,
+            translate: {0, 20}
+            )
+          end,
+          t: {340, 240}
+         )
 
   # --------------------------------------------------------
   def init(_, opts) do
     {:ok, info} = Scenic.ViewPort.info(opts[:viewport])
+
+    Logger.info "SysInfo init called"
 
     vp_info = """
     size: #{inspect(Map.get(info, :size))}
@@ -76,11 +93,31 @@ defmodule Dashboard.Scene.SysInfo do
       |> push_graph()
 
     unless @target == "host" do
-      # subscribe to the simulated temperature sensor
-      Process.send_after(self(), :update_devices, 100)
+      # Process.send_after(self(), :update_devices, 100)
+      # this cause a flicker on the temp display everytime it fires
     end
 
+    Sensor.subscribe(:temperature)
+
     {:ok, graph}
+  end
+
+  # receive updates from the simulated temperature sensor
+  def handle_info({:sensor, :data, {:temperature, kelvin, _}}, graph) do
+    Logger.info "SysInfo handle info for sensor called"
+    # fahrenheit
+    # temperature =
+    # (9 / 5 * (kelvin - 273) + 32)
+    # # temperature = kelvin - 273                      # celcius
+    temp = kelvin
+    |> :erlang.float_to_binary(decimals: 1)
+
+    graph
+    # center the temperature on the viewport
+    |> Graph.modify(:temperature, &text(&1, "#{temp}°"))
+    |> push_graph()
+
+    {:noreply, graph}
   end
 
   unless @target == "host" do
@@ -88,7 +125,9 @@ defmodule Dashboard.Scene.SysInfo do
     # Not a fan of this being polling. Would rather have InputEvent send me
     # an occasional event when something changes.
     def handle_info(:update_devices, graph) do
-      Process.send_after(self(), :update_devices, 1000)
+      Logger.info "SysInfo handle info for update devices called"
+      # Could this be a sensor instead??
+      # Process.send_after(self(), :update_devices, 1000)
 
       devices =
         InputEvent.enumerate()
