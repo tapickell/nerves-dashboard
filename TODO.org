@@ -29,3 +29,10 @@
 *** TODO gauge
 *** TODO code display
 *** TODO dummy lights
+* Refactor Notes
+** Simple Components
+*** Refactor out similarities to create a simple gauge
+*** This gauge should be reusable for temp and rpm.
+*** They need to each subscribe to the appropriate sensor data
+*** They need to handle extra text display options like the degree symbol
+*** Refactor sensors to provide data that does not need manipulation
