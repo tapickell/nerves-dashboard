@@ -5,7 +5,8 @@
    CLOSED: [2019-03-25 Mon 15:32]
 ** TODO Create module that generates fake system data to test
 *** TODO OBDII Module
-**** TODO RPM
+**** DONE RPM
+     CLOSED: [2019-03-25 Mon 23:47]
 **** DONE Water Temp
      CLOSED: [2019-03-25 Mon 15:32]
 **** TODO Check Engine Light and Code Fetching
@@ -18,6 +19,7 @@
 **** TODO Solar Panel Charging Level
 **** TODO Water Tank Level
 *** TODO GPS Module
+**** TODO GPS Signal
 **** TODO Vehicle Speed
 **** TODO GPS Location
 **** TODO Elevation

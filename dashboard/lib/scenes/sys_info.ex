@@ -89,7 +89,6 @@ defmodule Dashboard.Scene.SysInfo do
 
   def handle_info({:sensor, :data, {:ecu_rpm, ecu_rpm, _}}, %{graph: graph}) do
     rpm = ecu_rpm
-    |> :erlang.float_to_binary(decimals: 0)
     Logger.info "SysInfo handle info for rpm sensor called: #{rpm}"
 
     new_graph = Graph.modify(graph, :ecu_rpm, &text(&1, "#{rpm}"))
