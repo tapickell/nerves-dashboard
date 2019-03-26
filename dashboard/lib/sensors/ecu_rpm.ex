@@ -10,7 +10,7 @@ defmodule Dashboard.Sensor.EcuRpm do
   @version "0.1.0"
   @description "Simulated temperature sensor"
 
-  @timer_ms 400
+  @timer_ms 200
   @initial_rpm 953
   @amplitude 1.5
   @frequency 0.001

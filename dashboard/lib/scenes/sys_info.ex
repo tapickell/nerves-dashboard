@@ -47,7 +47,7 @@ defmodule Dashboard.Scene.SysInfo do
                id: :ecu_rpm
              )
            end,
-           t: {280, 30},
+           t: {280, 30}
          )
          |> group(
            fn g ->
@@ -84,14 +84,26 @@ defmodule Dashboard.Scene.SysInfo do
       |> Graph.modify(:vp_info, &text(&1, vp_info))
       |> push_graph()
 
-    # Sensor.subscribe(:ecu_rpm)
+    Sensor.subscribe(:ecu_rpm)
     Sensor.subscribe(:temperature)
 
     {:ok, graph}
   end
 
+  def handle_info({:sensor, :data, {:ecu_rpm, ecu_rpm, _}}, graph) do
+    rpm = ecu_rpm
+    |> :erlang.float_to_binary(decimals: 0)
+
+    Logger.info "SysInfo handle info for rpm sensor called: #{rpm}"
+    graph
+    |> Graph.modify(:ecu_rpm, &text(&1, "#{rpm}"))
+    |> push_graph()
+
+    {:noreply, graph}
+  end
+
   def handle_info({:sensor, :data, {:temperature, kelvin, _}}, graph) do
-    Logger.info "SysInfo handle info for sensor called"
+    Logger.info "SysInfo handle info for temp sensor called: #{kelvin}"
     temp = kelvin
     |> :erlang.float_to_binary(decimals: 0)
 
@@ -100,6 +112,11 @@ defmodule Dashboard.Scene.SysInfo do
     |> push_graph()
 
     {:noreply, graph}
+  end
+
+  def handle_info(stuff, graph) do
+    Logger.info "handle info mismatch called with #{stuff}"
+    graph
   end
 
 end
