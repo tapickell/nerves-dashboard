@@ -3,7 +3,24 @@ defmodule Dashboard.Component.SimpleGauge do
   alias Scenic.Graph
   alias Scenic.Sensor
 
-  import Scenic.Primitives, only: [{:text, 3}]
+  require Logger
+
+  # import Scenic.Primitives, only: [{:text, 3}, {:group, 2}]
+  import Scenic.Primitives
+
+  @moduledoc """
+  Add a Simple Gauge to a graph
+
+  ## Data
+
+  `label`
+
+  * `label` - a bitstring describing the text to show above the value readout
+
+  ### Example
+      graph
+      |> simple_gauge("Water Temperature", sensor: :water_temperature, postfix: "°f")
+  """
 
   @graph Graph.build()
   |> group(
@@ -19,34 +36,41 @@ defmodule Dashboard.Component.SimpleGauge do
   #{IO.ANSI.yellow()}Received: #{inspect(data)}
   #{IO.ANSI.default_color()}
   """
+
   def verify(label) when is_bitstring(label), do: {:ok, label}
   def verify(_), do: :invalid_data
 
-  def init(label, value // "", sensor: sensor, postfix: postfix) do
-    p = postfix || ""
+  def init(label, options) do
+    Logger.info("Options keys should contain :sensor #{inspect(options)}")
+    opts = options[:styles]
+    sensor = opts[:sensor]
+    pf = opts[:postfix] || ""
+    Logger.info("SimpleGauge init called with sensor: #{sensor} from")
 
-    graph = @graph
-    |> Graph.modify(:label, &label(&1, label))
-    |> Graph.modify(:value, &value(&1, "#{value}#{p}"))
 
-    if sensor, do: Sensor.subscribe(sensor)
+    graph = Graph.modify(@graph, :label, &text(&1, label))
+
+    if sensor do
+      Logger.info("SimpleGauge Sensor subscribe called with sensor: #{sensor}")
+      Sensor.subscribe(sensor)
+    end
 
     state = %{
       graph: graph,
       label: label,
-      postfix: postfix,
-      sensor: sensor,
-      value: value
+      postfix: pf,
+      sensor: sensor
     }
 
     {:ok, state, push: graph}
   end
 
-  def handle_info({:sensor, :data, {sensor, data, _}}, %{graph: graph, postfix: pf, sensor: sensor}) do
+  def handle_info({:sensor, :data, {sensor, data, _}}, %{graph: graph, postfix: pf, sensor: sensor} = state) do
     Logger.info "handle info for #{sensor} sensor called: #{data}"
 
     new_graph = Graph.modify(graph, :value, &text(&1, "#{data}#{pf}"))
 
-    {:noreply, %{graph: new_graph}, push: new_graph}
+    {:noreply, %{state | graph: new_graph}, push: new_graph}
   end
+
 end

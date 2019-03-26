@@ -6,6 +6,7 @@ defmodule Dashboard.Scene.SysInfo do
   require Logger
 
   import Scenic.Primitives
+  import Dashboard.Components
 
   @target System.get_env("MIX_TARGET") || "host"
 
@@ -41,11 +42,7 @@ defmodule Dashboard.Scene.SysInfo do
          |> group(
            fn g ->
              g
-             |> text("ECU RPM")
-             |> text("0",
-               translate: {10, 20},
-               id: :ecu_rpm
-             )
+             |> simple_gauge("ECU RPM", sensor: :ecu_rpm)
            end,
            t: {280, 30}
          )
@@ -81,20 +78,20 @@ defmodule Dashboard.Scene.SysInfo do
 
     graph = Graph.modify(@graph, :vp_info, &text(&1, vp_info))
 
-    Sensor.subscribe(:ecu_rpm)
+    # Sensor.subscribe(:ecu_rpm)
     Sensor.subscribe(:temperature)
 
     {:ok, %{graph: graph}, push: graph}
   end
 
-  def handle_info({:sensor, :data, {:ecu_rpm, ecu_rpm, _}}, %{graph: graph}) do
-    rpm = ecu_rpm
-    Logger.info "SysInfo handle info for rpm sensor called: #{rpm}"
+  # def handle_info({:sensor, :data, {:ecu_rpm, ecu_rpm, _}}, %{graph: graph}) do
+  #   rpm = ecu_rpm
+  #   Logger.info "SysInfo handle info for rpm sensor called: #{rpm}"
 
-    new_graph = Graph.modify(graph, :ecu_rpm, &text(&1, "#{rpm}"))
+  #   new_graph = Graph.modify(graph, :ecu_rpm, &text(&1, "#{rpm}"))
 
-    {:noreply, %{graph: new_graph}, push: new_graph}
-  end
+  #   {:noreply, %{graph: new_graph}, push: new_graph}
+  # end
 
   def handle_info({:sensor, :data, {:temperature, kelvin, _}}, %{graph: graph}) do
     Logger.info "SysInfo handle info for temp sensor called: #{kelvin}"
