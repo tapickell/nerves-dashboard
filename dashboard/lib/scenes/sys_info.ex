@@ -84,6 +84,7 @@ defmodule Dashboard.Scene.SysInfo do
       |> Graph.modify(:vp_info, &text(&1, vp_info))
       |> push_graph()
 
+    # Sensor.subscribe(:ecu_rpm)
     Sensor.subscribe(:temperature)
 
     {:ok, graph}

@@ -5,6 +5,7 @@ defmodule Dashboard.Sensor.Supervisor do
   use Supervisor
 
   alias Dashboard.Sensor.Temperature
+  alias Dashboard.Sensor.EcuRpm
 
   def start_link() do
     Supervisor.start_link(__MODULE__, :ok)
@@ -13,6 +14,7 @@ defmodule Dashboard.Sensor.Supervisor do
   def init(:ok) do
     children = [
       {Scenic.Sensor, nil},
+      {EcuRpm, nil},
       {Temperature, nil}
     ]
 
