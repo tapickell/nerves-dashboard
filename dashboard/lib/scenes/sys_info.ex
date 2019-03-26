@@ -41,15 +41,13 @@ defmodule Dashboard.Scene.SysInfo do
          |> group(
            fn g ->
              g
-             |> text("Input Devices")
-             |> text("Devices are being loaded...",
+             |> text("ECU RPM")
+             |> text("0",
                translate: {10, 20},
-               font_size: 18,
-               id: :devices
+               id: :ecu_rpm
              )
            end,
            t: {280, 30},
-           id: :device_list
          )
          |> group(
            fn g ->
@@ -84,7 +82,6 @@ defmodule Dashboard.Scene.SysInfo do
     graph =
       @graph
       |> Graph.modify(:vp_info, &text(&1, vp_info))
-      |> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))
       |> push_graph()
 
     Sensor.subscribe(:temperature)
