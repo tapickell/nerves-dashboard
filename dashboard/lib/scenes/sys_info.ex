@@ -62,7 +62,7 @@ defmodule Dashboard.Scene.SysInfo do
          |> group(
           fn g ->
             g
-            |> text("Temperature")
+            |> text("Coolant Temperature")
             |> text(
               "",
             id: :temperature,
@@ -72,7 +72,6 @@ defmodule Dashboard.Scene.SysInfo do
           t: {340, 240}
          )
 
-  # --------------------------------------------------------
   def init(_, opts) do
     {:ok, info} = Scenic.ViewPort.info(opts[:viewport])
 
@@ -82,66 +81,27 @@ defmodule Dashboard.Scene.SysInfo do
     size: #{inspect(Map.get(info, :size))}
     """
 
-    # styles: #{stringify_map(Map.get(info, :styles, %{a: 1, b: 2}))}
-    # transforms: #{stringify_map(Map.get(info, :transforms, %{}))}
-    # drivers: #{stringify_map(Map.get(info, :drivers))}
-
     graph =
       @graph
       |> Graph.modify(:vp_info, &text(&1, vp_info))
       |> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))
       |> push_graph()
 
-    unless @target == "host" do
-      # Process.send_after(self(), :update_devices, 100)
-      # this cause a flicker on the temp display everytime it fires
-    end
-
     Sensor.subscribe(:temperature)
 
     {:ok, graph}
   end
 
-  # receive updates from the simulated temperature sensor
   def handle_info({:sensor, :data, {:temperature, kelvin, _}}, graph) do
     Logger.info "SysInfo handle info for sensor called"
-    # fahrenheit
-    # temperature =
-    # (9 / 5 * (kelvin - 273) + 32)
-    # # temperature = kelvin - 273                      # celcius
     temp = kelvin
-    |> :erlang.float_to_binary(decimals: 1)
+    |> :erlang.float_to_binary(decimals: 0)
 
     graph
-    # center the temperature on the viewport
     |> Graph.modify(:temperature, &text(&1, "#{temp}°"))
     |> push_graph()
 
     {:noreply, graph}
   end
 
-  unless @target == "host" do
-    # --------------------------------------------------------
-    # Not a fan of this being polling. Would rather have InputEvent send me
-    # an occasional event when something changes.
-    def handle_info(:update_devices, graph) do
-      Logger.info "SysInfo handle info for update devices called"
-      # Could this be a sensor instead??
-      # Process.send_after(self(), :update_devices, 1000)
-
-      devices =
-        InputEvent.enumerate()
-        |> Enum.reduce("", fn {_, device}, acc ->
-          Enum.join([acc, inspect(device), "\r\n"])
-        end)
-
-      # update the graph
-      graph =
-        graph
-        |> Graph.modify(:devices, &text(&1, devices))
-        |> push_graph()
-
-      {:noreply, graph}
-    end
-  end
 end
