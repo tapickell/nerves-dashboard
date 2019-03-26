@@ -42,7 +42,7 @@ defmodule Dashboard.MixProject do
       {:shoehorn, "~> 0.4"},
       {:ring_logger, "~> 0.5"},
       {:toolshed, "~> 0.2"},
-      {:scenic, "~> 0.9"},
+      {:scenic, "~> 0.10"},
       {:scenic_sensor, "~> 0.7"}
     ] ++ deps(@target)
   end
@@ -50,7 +50,7 @@ defmodule Dashboard.MixProject do
   # Specify target specific dependencies
   defp deps("host") do
     [
-      {:scenic_driver_glfw, "~> 0.9"}
+      {:scenic_driver_glfw, "~> 0.10"}
     ]
   end
 
@@ -58,8 +58,8 @@ defmodule Dashboard.MixProject do
     [
       {:nerves_runtime, "~> 0.6"},
       {:nerves_init_gadget, "~> 0.4"},
-      {:scenic_driver_nerves_rpi, "~> 0.9"},
-      {:scenic_driver_nerves_touch, "~> 0.9"}
+      {:scenic_driver_nerves_rpi, "~> 0.10"},
+      {:scenic_driver_nerves_touch, "~> 0.10"}
     ] ++ system(target)
   end
 

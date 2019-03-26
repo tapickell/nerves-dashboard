@@ -79,44 +79,32 @@ defmodule Dashboard.Scene.SysInfo do
     size: #{inspect(Map.get(info, :size))}
     """
 
-    graph =
-      @graph
-      |> Graph.modify(:vp_info, &text(&1, vp_info))
-      |> push_graph()
+    graph = Graph.modify(@graph, :vp_info, &text(&1, vp_info))
 
     Sensor.subscribe(:ecu_rpm)
     Sensor.subscribe(:temperature)
 
-    {:ok, graph}
+    {:ok, %{graph: graph}, push: graph}
   end
 
-  def handle_info({:sensor, :data, {:ecu_rpm, ecu_rpm, _}}, graph) do
+  def handle_info({:sensor, :data, {:ecu_rpm, ecu_rpm, _}}, %{graph: graph}) do
     rpm = ecu_rpm
     |> :erlang.float_to_binary(decimals: 0)
-
     Logger.info "SysInfo handle info for rpm sensor called: #{rpm}"
-    graph
-    |> Graph.modify(:ecu_rpm, &text(&1, "#{rpm}"))
-    |> push_graph()
 
-    {:noreply, graph}
+    new_graph = Graph.modify(graph, :ecu_rpm, &text(&1, "#{rpm}"))
+
+    {:noreply, %{graph: new_graph}, push: new_graph}
   end
 
-  def handle_info({:sensor, :data, {:temperature, kelvin, _}}, graph) do
+  def handle_info({:sensor, :data, {:temperature, kelvin, _}}, %{graph: graph}) do
     Logger.info "SysInfo handle info for temp sensor called: #{kelvin}"
     temp = kelvin
     |> :erlang.float_to_binary(decimals: 0)
 
-    graph
-    |> Graph.modify(:temperature, &text(&1, "#{temp}°"))
-    |> push_graph()
+    new_graph = Graph.modify(graph, :temperature, &text(&1, "#{temp}°"))
 
-    {:noreply, graph}
-  end
-
-  def handle_info(stuff, graph) do
-    Logger.info "handle info mismatch called with #{stuff}"
-    graph
+    {:noreply, %{graph: new_graph}, push: new_graph}
   end
 
 end
