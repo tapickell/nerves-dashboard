@@ -10,6 +10,12 @@
 **** DONE Water Temp
      CLOSED: [2019-03-25 Mon 15:32]
 **** TODO Check Engine Light and Code Fetching
+***** TODO Dummy Light
+***** TODO Code generator and clearer
+***** TODO Code generation triggers light
+***** TODO Code Display Panel
+***** TODO Code generation triggers light
+***** TODO Code generation triggers code display
 *** TODO Weather Module
 **** TODO Temperature Outdoor and Indoor
 **** TODO Barometric Pressure

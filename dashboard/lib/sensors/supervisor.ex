@@ -1,11 +1,9 @@
-# a simple supervisor that starts up the Scenic.SensorPubSub server
-# and any set of other sensor processes
-
 defmodule Dashboard.Sensor.Supervisor do
   use Supervisor
 
-  alias Dashboard.Sensor.Temperature
+  alias Dashboard.Sensor.DummyLight
   alias Dashboard.Sensor.EcuRpm
+  alias Dashboard.Sensor.Temperature
 
   def start_link() do
     Supervisor.start_link(__MODULE__, :ok)
@@ -14,6 +12,7 @@ defmodule Dashboard.Sensor.Supervisor do
   def init(:ok) do
     children = [
       {Scenic.Sensor, nil},
+      {DummyLight, nil},
       {EcuRpm, nil},
       {Temperature, nil}
     ]

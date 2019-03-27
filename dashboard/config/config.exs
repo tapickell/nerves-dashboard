@@ -25,10 +25,10 @@ keys =
 
 if keys == [],
   do:
-Mix.raise("""
-No SSH public keys found in ~/.ssh. An ssh authorized key is needed to
-log into the Nerves device and update firmware on it using ssh.
-See your project's config.exs for this error message.
+    Mix.raise("""
+    No SSH public keys found in ~/.ssh. An ssh authorized key is needed to
+    log into the Nerves device and update firmware on it using ssh.
+    See your project's config.exs for this error message.
     """)
 
 config :nerves_firmware_ssh,
@@ -47,6 +47,7 @@ config :nerves_init_gadget,
   mdns_domain: "nerves.local",
   node_name: node_name,
   node_host: :mdns_domain
+
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations

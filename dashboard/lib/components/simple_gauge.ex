@@ -23,19 +23,18 @@ defmodule Dashboard.Component.SimpleGauge do
   """
 
   @graph Graph.build()
-  |> group(
-    fn g ->
-      g
-      |> text("", id: :label)
-      |> text("", id: :value, translate: {0, 20})
-    end
-  )
+         |> group(fn g ->
+           g
+           |> text("", id: :label)
+           |> text("", id: :value, translate: {0, 20})
+         end)
 
-  def info(data), do: """
-  #{IO.ANSI.red()}#{__MODULE__} data must be a bitstring
-  #{IO.ANSI.yellow()}Received: #{inspect(data)}
-  #{IO.ANSI.default_color()}
-  """
+  def info(data),
+    do: """
+    #{IO.ANSI.red()}#{__MODULE__} data must be a bitstring
+    #{IO.ANSI.yellow()}Received: #{inspect(data)}
+    #{IO.ANSI.default_color()}
+    """
 
   def verify(label) when is_bitstring(label), do: {:ok, label}
   def verify(_), do: :invalid_data
@@ -46,7 +45,6 @@ defmodule Dashboard.Component.SimpleGauge do
     sensor = opts[:sensor]
     pf = opts[:postfix] || ""
     Logger.info("SimpleGauge init called with sensor: #{sensor} from")
-
 
     graph = Graph.modify(@graph, :label, &text(&1, label))
 
@@ -65,12 +63,14 @@ defmodule Dashboard.Component.SimpleGauge do
     {:ok, state, push: graph}
   end
 
-  def handle_info({:sensor, :data, {sensor, data, _}}, %{graph: graph, postfix: pf, sensor: sensor} = state) do
-    Logger.info "handle info for #{sensor} sensor called: #{data}"
+  def handle_info(
+        {:sensor, :data, {sensor, data, _}},
+        %{graph: graph, postfix: pf, sensor: sensor} = state
+      ) do
+    Logger.info("handle info for #{sensor} sensor called: #{data}")
 
     new_graph = Graph.modify(graph, :value, &text(&1, "#{data}#{pf}"))
 
     {:noreply, %{state | graph: new_graph}, push: new_graph}
   end
-
 end

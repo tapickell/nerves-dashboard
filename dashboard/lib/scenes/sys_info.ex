@@ -49,23 +49,24 @@ defmodule Dashboard.Scene.SysInfo do
          |> group(
            fn g ->
              g
-             |> text("IEx")
+             |> text("Codes")
              |> text(@iex_note, translate: {10, 20}, font_size: 18)
+             |> dummy_light("Whatevs")
            end,
            t: {10, 240}
          )
          |> group(
-          fn g ->
-            g
-            |> simple_gauge("Coolant Temperature", sensor: :temperature, postfix: "°f")
-          end,
-          t: {340, 240}
+           fn g ->
+             g
+             |> simple_gauge("Coolant Temperature", sensor: :temperature, postfix: "°f")
+           end,
+           t: {340, 240}
          )
 
   def init(_, opts) do
     {:ok, info} = Scenic.ViewPort.info(opts[:viewport])
 
-    Logger.info "SysInfo init called"
+    Logger.info("SysInfo init called")
 
     vp_info = """
     size: #{inspect(Map.get(info, :size))}
@@ -75,5 +76,4 @@ defmodule Dashboard.Scene.SysInfo do
 
     {:ok, %{graph: graph}, push: graph}
   end
-
 end

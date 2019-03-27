@@ -19,8 +19,8 @@ defmodule Dashboard.Sensor.Temperature do
   def start_link(_), do: GenServer.start_link(__MODULE__, :ok, name: @name)
 
   def init(_) do
-    Sensor.register(:temperature, @version, @description)
-    Sensor.publish(:temperature, temp_to_binary(@initial_temp))
+    Sensor.register(@name, @version, @description)
+    Sensor.publish(@name, temp_to_binary(@initial_temp))
 
     {:ok, timer} = :timer.send_interval(@timer_ms, :tick)
     {:ok, %{timer: timer, temperature: @initial_temp, t: 0}}
@@ -30,8 +30,9 @@ defmodule Dashboard.Sensor.Temperature do
   # this one just fakes it with a sine wave
   def handle_info(:tick, %{t: t} = state) do
     temp = @initial_temp + @amplitude * :math.sin(@tau * @frequency * t)
+
     Sensor.publish(
-      :temperature,
+      @name,
       temp_to_binary(temp)
     )
 
