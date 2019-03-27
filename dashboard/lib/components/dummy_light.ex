@@ -7,18 +7,12 @@ defmodule Dashboard.Component.DummyLight do
 
   import Scenic.Primitives
 
-  @img_path :code.priv_dir(:dashboard)
-            |> Path.join("/static/images/service_engine_soon_pic_2.png")
-  @img_hash Scenic.Cache.Support.Hash.file!(@img_path, :sha)
-  @width 100
-  @height 100
-  @on 1.0
-  @off 0.2
+  @cel "CHECK ENGINE"
 
   @graph Graph.build()
          |> group(fn g ->
            g
-           |> rect({@width, @height}, id: :dummy_light, fill: {:image, @img_hash}, t: {15, 230})
+           |> text("", id: :on_state, fill: :orange, t: {0, 0})
          end)
 
   def info(data),
@@ -31,33 +25,23 @@ defmodule Dashboard.Component.DummyLight do
   def verify(whatevs) when is_bitstring(whatevs), do: {:ok, whatevs}
   def verify(_), do: :invalid_data
 
-  # maybe this should take the image file
-  # instead of the initial on state.
-  # the initial state on startup should be off by default
   def init(_whatevs, options) do
     Logger.info("Options keys should contain  #{inspect(options)}")
     _opts = options[:styles]
 
     Sensor.subscribe(:dummy_light)
-
-    Scenic.Cache.Static.Texture.load(@img_path, @img_hash)
-
-    new_graph =
-      Graph.modify(
-        @graph,
-        :dummy_light,
-        &update_opts(&1, fill: {:image, @img_hash, @off})
-      )
+    Logger.info("Subscribed to dummy_light")
 
     state = %{
-      graph: new_graph,
+      graph: @graph,
       on: false
     }
 
-    {:ok, state, push: new_graph}
+    {:ok, state, push: @graph}
   end
 
   def handle_info({:sensor, :data, {:dummy_light, on, _}}, %{on: on} = state) do
+    Logger.warn("DummyLight HandleInfo matching on_states: #{on}")
     {:noreply, state}
   end
 
@@ -67,10 +51,10 @@ defmodule Dashboard.Component.DummyLight do
     new_on = on_from_data(data)
 
     new_graph =
-      Graph.modify(
-        graph,
-        :value,
-        &update_opts(&1, fill: {:image, @img_hash, alpha_for_toggle(new_on)})
+      graph
+      |> Graph.modify(
+        :on_state,
+        &text(&1, "#{new_on}")
       )
 
     state = %{
@@ -81,10 +65,6 @@ defmodule Dashboard.Component.DummyLight do
     {:noreply, state, push: new_graph}
   end
 
-  defp alpha_for_toggle(true), do: @on
-  defp alpha_for_toggle(_), do: @off
-
-  defp on_from_data(on) when is_boolean(on), do: on
-  defp on_from_data("true"), do: true
-  defp on_from_data(_), do: false
+  defp on_from_data(true), do: @cel
+  defp on_from_data(_), do: ""
 end

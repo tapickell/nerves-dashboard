@@ -49,8 +49,6 @@ defmodule Dashboard.Scene.SysInfo do
          |> group(
            fn g ->
              g
-             |> text("Codes")
-             |> text(@iex_note, translate: {10, 20}, font_size: 18)
              |> dummy_light("Whatevs")
            end,
            t: {10, 240}

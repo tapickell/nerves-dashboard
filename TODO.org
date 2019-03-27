@@ -10,9 +10,9 @@
 **** DONE Water Temp
      CLOSED: [2019-03-25 Mon 15:32]
 **** TODO Check Engine Light and Code Fetching
-***** TODO Dummy Light
+***** DONE Dummy Light
+      CLOSED: [2019-03-27 Wed 14:32]
 ***** TODO Code generator and clearer
-***** TODO Code generation triggers light
 ***** TODO Code Display Panel
 ***** TODO Code generation triggers light
 ***** TODO Code generation triggers code display
@@ -44,3 +44,11 @@
 *** They need to each subscribe to the appropriate sensor data
 *** They need to handle extra text display options like the degree symbol
 *** Refactor sensors to provide data that does not need manipulation
+** Stability Issues
+*** Flapping
+**** When a component is borked it causes the whole scene to flap
+**** It would be nice to have it split up so it only retries the problem component.
+**** And maybe after a couple tries some back off while displaying gauge issue in ui
+**** So other gauges still operate without the bad gauge/component.
+** Demo Mode
+*** Should be a way to use the data generators for test as a demo mode that can be toggled
