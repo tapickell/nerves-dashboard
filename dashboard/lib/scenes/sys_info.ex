@@ -57,12 +57,7 @@ defmodule Dashboard.Scene.SysInfo do
          |> group(
           fn g ->
             g
-            |> text("Coolant Temperature")
-            |> text(
-              "",
-            id: :temperature,
-            translate: {0, 20}
-            )
+            |> simple_gauge("Coolant Temperature", sensor: :temperature, postfix: "°f")
           end,
           t: {340, 240}
          )
@@ -78,29 +73,7 @@ defmodule Dashboard.Scene.SysInfo do
 
     graph = Graph.modify(@graph, :vp_info, &text(&1, vp_info))
 
-    # Sensor.subscribe(:ecu_rpm)
-    Sensor.subscribe(:temperature)
-
     {:ok, %{graph: graph}, push: graph}
-  end
-
-  # def handle_info({:sensor, :data, {:ecu_rpm, ecu_rpm, _}}, %{graph: graph}) do
-  #   rpm = ecu_rpm
-  #   Logger.info "SysInfo handle info for rpm sensor called: #{rpm}"
-
-  #   new_graph = Graph.modify(graph, :ecu_rpm, &text(&1, "#{rpm}"))
-
-  #   {:noreply, %{graph: new_graph}, push: new_graph}
-  # end
-
-  def handle_info({:sensor, :data, {:temperature, kelvin, _}}, %{graph: graph}) do
-    Logger.info "SysInfo handle info for temp sensor called: #{kelvin}"
-    temp = kelvin
-    |> :erlang.float_to_binary(decimals: 0)
-
-    new_graph = Graph.modify(graph, :temperature, &text(&1, "#{temp}°"))
-
-    {:noreply, %{graph: new_graph}, push: new_graph}
   end
 
 end
