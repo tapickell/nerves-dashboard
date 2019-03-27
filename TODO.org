@@ -23,8 +23,10 @@
 **** TODO Vehicle Speed
 **** TODO GPS Location
 **** TODO Elevation
-** TODO Create simple GUI elements to display data
-** TODO Subscribe GUI elements to sensor events
+** DONE Create simple GUI elements to display data
+   CLOSED: [2019-03-26 Tue 20:35]
+** DONE Subscribe GUI elements to sensor events
+   CLOSED: [2019-03-26 Tue 20:35]
 ** TODO Create higher level GUI elements
 *** TODO gauge
 *** TODO code display

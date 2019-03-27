@@ -8,7 +8,7 @@ defmodule Dashboard.Sensor.EcuRpm do
 
   @name :ecu_rpm
   @version "0.1.0"
-  @description "Simulated temperature sensor"
+  @description "Simulated ecu rpm sensor"
 
   @max_rpm 8500
   @min_rpm 725
