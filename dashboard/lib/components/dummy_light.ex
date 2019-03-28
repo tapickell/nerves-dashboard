@@ -6,6 +6,7 @@ defmodule Dashboard.Component.DummyLight do
   require Logger
 
   import Scenic.Primitives
+  import Dashboard.Components
 
   @cel "CHECK ENGINE"
 
@@ -40,31 +41,48 @@ defmodule Dashboard.Component.DummyLight do
     {:ok, state, push: @graph}
   end
 
-  def handle_info({:sensor, :data, {:dummy_light, on, _}}, %{on: on} = state) do
+  def handle_info({:sensor, :data, {:dummy_light, %{on_state: on}, _}}, %{on: on} = state) do
     Logger.warn("DummyLight HandleInfo matching on_states: #{on}")
     {:noreply, state}
   end
 
-  def handle_info({:sensor, :data, {:dummy_light, data, _}}, %{graph: graph}) do
-    Logger.info("handle info for dummy_light sensor called: #{data}")
-
-    new_on = on_from_data(data)
+  def handle_info({:sensor, :data, {:dummy_light, %{on_state: false}, _}}, %{graph: graph}) do
+    Logger.info("handle info for dummy_light sensor called: false")
 
     new_graph =
       graph
       |> Graph.modify(
         :on_state,
-        &text(&1, "#{new_on}")
+        &text(&1, "")
       )
+      |> Graph.delete(:codes_list)
 
     state = %{
       graph: new_graph,
-      on: new_on
+      on: false
     }
 
     {:noreply, state, push: new_graph}
   end
 
-  defp on_from_data(true), do: @cel
-  defp on_from_data(_), do: ""
+  def handle_info({:sensor, :data, {:dummy_light, %{on_state: true, codes: codes}, _}}, %{
+        graph: graph
+      }) do
+    Logger.info("handle info for dummy_light sensor called: true => #{inspect(codes)}")
+
+    new_graph =
+      graph
+      |> Graph.modify(
+        :on_state,
+        &text(&1, "#{@cel}")
+      )
+      |> list(codes, id: :codes_list, fill: :red, font_size: 18, t: {0, 10})
+
+    state = %{
+      graph: new_graph,
+      on: true
+    }
+
+    {:noreply, state, push: new_graph}
+  end
 end

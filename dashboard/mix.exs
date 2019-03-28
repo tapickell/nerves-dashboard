@@ -43,7 +43,8 @@ defmodule Dashboard.MixProject do
       {:ring_logger, "~> 0.5"},
       {:toolshed, "~> 0.2"},
       {:scenic, "~> 0.10"},
-      {:scenic_sensor, "~> 0.7"}
+      {:scenic_sensor, "~> 0.7"},
+      {:obd2_server, path: '../obd2_server'}
     ] ++ deps(@target)
   end
 

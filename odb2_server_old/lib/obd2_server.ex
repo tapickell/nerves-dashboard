@@ -8,7 +8,7 @@ defmodule Obd2Server do
 
   ## Examples
 
-      iex> Obd2Server.hello()
+      iex> Obd2Server.hello
       :world
 
   """

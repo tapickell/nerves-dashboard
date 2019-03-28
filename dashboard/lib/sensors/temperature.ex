@@ -11,7 +11,7 @@ defmodule Dashboard.Sensor.Temperature do
   @description "Simulated temperature sensor"
 
   @timer_ms 400
-  @initial_temp 295.372
+  @initial_temp 195.372
   @amplitude 1.5
   @frequency 0.001
   @tau :math.pi() * 2

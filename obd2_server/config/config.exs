@@ -1,68 +1,30 @@
 # This file is responsible for configuring your application
 # and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
-# Customize non-Elixir parts of the firmware. See
-# https://hexdocs.pm/nerves/advanced-configuration.html for details.
+# This configuration is loaded before any dependency and is restricted
+# to this project. If another project depends on this project, this
+# file won't be loaded nor affect the parent project. For this reason,
+# if you want to provide default values for your application for
+# third-party users, it should be done in your "mix.exs" file.
 
-config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
+# You can configure your application as:
+#
+#     config :obd2_server, key: :value
+#
+# and access this configuration in your application as:
+#
+#     Application.get_env(:obd2_server, :key)
+#
+# You can also configure a third-party app:
+#
+#     config :logger, level: :info
+#
 
-# Use shoehorn to start the main application. See the shoehorn
-# docs for separating out critical OTP applications such as those
-# involved with firmware updates.
-
-config :shoehorn,
-  init: [:nerves_runtime, :nerves_init_gadget],
-  app: Mix.Project.config()[:app]
-
-# Use Ringlogger as the logger backend and remove :console.
-# See https://hexdocs.pm/ring_logger/readme.html for more information on
-# configuring ring_logger.
-
-config :logger, backends: [RingLogger]
-
-# Authorize the device to receive firmware using your public key.
-# See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
-# on configuring nerves_firmware_ssh.
-
-keys =
-  [
-    Path.join([System.user_home!(), ".ssh", "id_rsa.pub"]),
-    Path.join([System.user_home!(), ".ssh", "id_ecdsa.pub"]),
-    Path.join([System.user_home!(), ".ssh", "id_ed25519.pub"])
-  ]
-  |> Enum.filter(&File.exists?/1)
-
-if keys == [],
-  do:
-    Mix.raise("""
-    No SSH public keys found in ~/.ssh. An ssh authorized key is needed to
-    log into the Nerves device and update firmware on it using ssh.
-    See your project's config.exs for this error message.
-    """)
-
-config :nerves_firmware_ssh,
-  authorized_keys: Enum.map(keys, &File.read!/1)
-
-# Configure nerves_init_gadget.
-# See https://hexdocs.pm/nerves_init_gadget/readme.html for more information.
-
-# Setting the node_name will enable Erlang Distribution.
-# Only enable this for prod if you understand the risks.
-node_name = if Mix.env() != :prod, do: "obd2_server"
-
-config :nerves_init_gadget,
-  ifname: "eth0",
-  address_method: :dhcpd,
-  mdns_domain: "nerves.local",
-  node_name: node_name,
-  node_host: :mdns_domain
-
-# Import target specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-# Uncomment to use target specific configurations
-
-# import_config "#{Mix.target()}.exs"
+# It is also possible to import configuration files, relative to this
+# directory. For example, you can emulate configuration per environment
+# by uncommenting the line below and defining dev.exs, test.exs and such.
+# Configuration from the imported file will override the ones defined
+# here (which is why it is important to import them last).
+#
+#     import_config "#{Mix.env()}.exs"

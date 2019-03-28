@@ -19,6 +19,13 @@ defmodule Dashboard.Components do
     add_to_graph(g, Dashboard.Component.DummyLight, data, options)
   end
 
+  def list(graph, data, options \\ [])
+
+  def list(%Graph{} = g, data, options) do
+    Logger.info("List add_to_graph helper called: #{inspect(options)}")
+    add_to_graph(g, Dashboard.Component.List, data, options)
+  end
+
   defp add_to_graph(%Graph{} = g, mod, data, options) do
     Logger.info("Components add_to_graph helper called: #{inspect(options)}")
     mod.verify!(data)
