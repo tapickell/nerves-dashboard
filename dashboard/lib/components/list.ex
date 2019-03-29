@@ -54,7 +54,6 @@ defmodule Dashboard.Component.List do
 
   import Scenic.Primitives
 
-
   def info(data),
     do: """
     #{IO.ANSI.red()}#{__MODULE__} data must be a list
@@ -70,17 +69,18 @@ defmodule Dashboard.Component.List do
     {tx, ty} = Map.get(styles, :t)
     increment = Map.get(styles, :font_size, 18) + 2
 
-    specs = list
-    |> Enum.with_index()
-    |> Enum.map(fn {item, index} ->
-      new_ty = increment * index + ty
-      opts = %{styles | t: {tx, new_ty}}
-      text_spec(item, opts)
-    end)
+    specs =
+      list
+      |> Enum.take(5)
+      |> Enum.with_index()
+      |> Enum.map(fn {item, index} ->
+        new_ty = increment * index + ty
+        opts = %{styles | t: {tx, new_ty}}
+        text_spec(item, opts)
+      end)
 
     new_graph = add_specs_to_graph(Graph.build(), specs)
 
     {:ok, %{list: list}, push: new_graph}
   end
-
 end

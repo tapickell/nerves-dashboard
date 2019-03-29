@@ -76,7 +76,7 @@ defmodule Dashboard.Component.DummyLight do
         :on_state,
         &text(&1, "#{@cel}")
       )
-      |> list(codes, id: :codes_list, fill: :red, font_size: 18, t: {0, 10})
+      |> list(codes, id: :codes_list, fill: :red, font_size: 14, t: {0, 10})
 
     state = %{
       graph: new_graph,
