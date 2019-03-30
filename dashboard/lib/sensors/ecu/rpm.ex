@@ -1,4 +1,4 @@
-defmodule Dashboard.Sensor.EcuRpm do
+defmodule Dashboard.Sensor.Rpm do
   use GenServer
 
   alias Scenic.Sensor

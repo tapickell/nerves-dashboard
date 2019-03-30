@@ -29,7 +29,7 @@ defmodule Dashboard.Sensor.DummyLight do
 
   def handle_info(:tick, %{on_state: false, codes: codes, t: t} = state) do
     new_on_state = true
-    new_codes = [fetch_error_code() | codes]
+    new_codes = [fetch_error_code() | codes] |> Enum.take(5)
     Sensor.publish(@name, %{on_state: new_on_state, codes: new_codes})
     {:noreply, %{state | on_state: new_on_state, codes: new_codes, t: t + 1}}
   end

@@ -13,9 +13,13 @@
 ***** DONE Dummy Light
       CLOSED: [2019-03-27 Wed 14:32]
 ***** TODO Code generator and clearer
-***** TODO Code Display Panel
-***** TODO Code generation triggers light
-***** TODO Code generation triggers code display
+****** TODO Requires user input on touch device
+***** DONE Code Display Panel
+      CLOSED: [2019-03-28 Thu 22:19]
+***** DONE Code generation triggers light
+      CLOSED: [2019-03-28 Thu 22:19]
+***** DONE Code generation triggers code display
+      CLOSED: [2019-03-28 Thu 22:20]
 *** TODO Weather Module
 **** TODO Temperature Outdoor and Indoor
 **** TODO Barometric Pressure
@@ -29,6 +33,9 @@
 **** TODO Vehicle Speed
 **** TODO GPS Location
 **** TODO Elevation
+*** TODO Lighting Module
+**** TODO Interior lighting controls
+**** TODO Exterior lighting controls
 ** DONE Create simple GUI elements to display data
    CLOSED: [2019-03-26 Tue 20:35]
 ** DONE Subscribe GUI elements to sensor events

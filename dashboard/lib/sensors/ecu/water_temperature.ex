@@ -1,12 +1,12 @@
 # this is a SIMULATED temperature sensor
 # it pretends to get a temperature and sets it into the sensor cache.
 
-defmodule Dashboard.Sensor.Temperature do
+defmodule Dashboard.Sensor.Ecu.WaterTemperature do
   use GenServer
 
   alias Scenic.Sensor
 
-  @name :temperature
+  @name :ecu_water_temperature
   @version "0.1.0"
   @description "Simulated temperature sensor"
 

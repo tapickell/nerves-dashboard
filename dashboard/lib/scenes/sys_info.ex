@@ -1,7 +1,6 @@
 defmodule Dashboard.Scene.SysInfo do
   use Scenic.Scene
   alias Scenic.Graph
-  alias Scenic.Sensor
 
   require Logger
 
