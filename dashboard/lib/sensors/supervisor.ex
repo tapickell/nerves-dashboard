@@ -1,9 +1,8 @@
 defmodule Dashboard.Sensor.Supervisor do
   use Supervisor
 
-  alias Dashboard.Sensor.DummyLight
-  alias Dashboard.Sensor.EcuRpm
-  alias Dashboard.Sensor.Temperature
+  alias Dashboard.Sensor.Ecu
+  alias Dashboard.Sensor.Gpio
 
   def start_link() do
     Supervisor.start_link(__MODULE__, :ok)
@@ -12,9 +11,11 @@ defmodule Dashboard.Sensor.Supervisor do
   def init(:ok) do
     children = [
       {Scenic.Sensor, nil},
-      {DummyLight, nil},
-      {EcuRpm, nil},
-      {Temperature, nil}
+      {Gpio.Humidity, nil},
+      {Gpio.AirTemperature, nil},
+      {Ecu.DummyLight, nil},
+      {Ecu.Rpm, nil},
+      {Ecu.CoolantTemperature, nil}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

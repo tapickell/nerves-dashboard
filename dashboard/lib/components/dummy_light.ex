@@ -30,7 +30,7 @@ defmodule Dashboard.Component.DummyLight do
     Logger.info("Options keys should contain  #{inspect(options)}")
     _opts = options[:styles]
 
-    Sensor.subscribe(:dummy_light)
+    Sensor.subscribe(:ecu_dummy_light)
     Logger.info("Subscribed to dummy_light")
 
     state = %{
@@ -41,12 +41,12 @@ defmodule Dashboard.Component.DummyLight do
     {:ok, state, push: @graph}
   end
 
-  def handle_info({:sensor, :data, {:dummy_light, %{on_state: on}, _}}, %{on: on} = state) do
+  def handle_info({:sensor, :data, {:ecu_dummy_light, %{on_state: on}, _}}, %{on: on} = state) do
     Logger.warn("DummyLight HandleInfo matching on_states: #{on}")
     {:noreply, state}
   end
 
-  def handle_info({:sensor, :data, {:dummy_light, %{on_state: false}, _}}, %{graph: graph}) do
+  def handle_info({:sensor, :data, {:ecu_dummy_light, %{on_state: false}, _}}, %{graph: graph}) do
     Logger.info("handle info for dummy_light sensor called: false")
 
     new_graph =
@@ -65,7 +65,7 @@ defmodule Dashboard.Component.DummyLight do
     {:noreply, state, push: new_graph}
   end
 
-  def handle_info({:sensor, :data, {:dummy_light, %{on_state: true, codes: codes}, _}}, %{
+  def handle_info({:sensor, :data, {:ecu_dummy_light, %{on_state: true, codes: codes}, _}}, %{
         graph: graph
       }) do
     Logger.info("handle info for dummy_light sensor called: true => #{inspect(codes)}")

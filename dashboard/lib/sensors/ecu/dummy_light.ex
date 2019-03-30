@@ -1,10 +1,10 @@
-defmodule Dashboard.Sensor.DummyLight do
+defmodule Dashboard.Sensor.Ecu.DummyLight do
   use GenServer
 
   alias Scenic.Sensor
   alias Obd2Server.Codes
 
-  @name :dummy_light
+  @name :ecu_dummy_light
   @version "0.1.0"
   @description "Simulated check engine light sensor sends true for on and false for off"
 
@@ -29,7 +29,7 @@ defmodule Dashboard.Sensor.DummyLight do
 
   def handle_info(:tick, %{on_state: false, codes: codes, t: t} = state) do
     new_on_state = true
-    new_codes = [fetch_error_code() | codes]
+    new_codes = [fetch_error_code() | codes] |> Enum.take(10)
     Sensor.publish(@name, %{on_state: new_on_state, codes: new_codes})
     {:noreply, %{state | on_state: new_on_state, codes: new_codes, t: t + 1}}
   end

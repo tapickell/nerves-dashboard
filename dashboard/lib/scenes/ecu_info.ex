@@ -1,7 +1,6 @@
 defmodule Dashboard.Scene.EcuInfo do
   use Scenic.Scene
   alias Scenic.Graph
-  alias Scenic.Sensor
 
   require Logger
 
@@ -27,7 +26,7 @@ defmodule Dashboard.Scene.EcuInfo do
          |> group(
            fn g ->
              g
-             |> simple_gauge("Coolant Temperature", sensor: :temperature, postfix: "°f")
+             |> simple_gauge("Coolant Temperature", sensor: :ecu_coolant_temperature, postfix: "°f")
            end,
            t: {340, 240}
          )
