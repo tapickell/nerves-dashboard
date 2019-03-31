@@ -13,8 +13,8 @@ defmodule Dashboard.Component.DummyLight do
   @graph Graph.build()
          |> group(fn g ->
            g
+           |> demo_rect("", dims: {400, 100})
            |> text("", id: :on_state, fill: :orange, t: {0, 0})
-           |> demo_rect("", dims: {400, 100}, color: :yellow)
          end)
 
   def info(data),

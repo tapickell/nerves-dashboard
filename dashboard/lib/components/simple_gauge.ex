@@ -25,9 +25,9 @@ defmodule Dashboard.Component.SimpleGauge do
   @graph Graph.build()
          |> group(fn g ->
            g
-           |> text("", id: :label)
-           |> text("", id: :value, translate: {0, 20})
-           |> demo_rect("", dims: {400, 100})
+           |> demo_rect("", dims: {200, 60})
+           |> text("", id: :label, t: {0, 20})
+           |> text("", id: :value, translate: {0, 40})
          end)
 
   def info(data),

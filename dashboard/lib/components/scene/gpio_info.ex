@@ -22,7 +22,7 @@ defmodule Dashboard.Component.Scene.GpioInfo do
              g
              |> simple_gauge("Humidity Level", sensor: :gpio_humidity, postfix: "% RH")
            end,
-           t: {340, 240}
+           t: {280, 90}
          )
 
   def info(data),

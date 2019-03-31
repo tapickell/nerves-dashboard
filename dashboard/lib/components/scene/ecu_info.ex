@@ -32,7 +32,7 @@ defmodule Dashboard.Component.Scene.EcuInfo do
                postfix: "°f"
              )
            end,
-           t: {340, 240}
+           t: {280, 90}
          )
 
   def info(data),

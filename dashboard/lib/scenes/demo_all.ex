@@ -14,7 +14,7 @@ defmodule Dashboard.Scene.DemoAll do
            fn g ->
              g
              |> ecu_info("EcuInfo")
-             |> rect({@vp_w, @vp_h}, stroke: {1, :green})
+             |> demo_rect("", dims: {@vp_w, @vp_h})
            end,
            t: {0, 0}
          )
@@ -22,16 +22,17 @@ defmodule Dashboard.Scene.DemoAll do
            fn g ->
              g
              |> gpio_info("GpioInfo")
-             |> rect({@vp_w, @vp_h}, stroke: {1, :blue})
+             |> demo_rect("", dims: {@vp_w, @vp_h})
            end,
-           t: {@vp_w + 1, 0}
+           t: {@vp_w, 0}
          )
          |> group(
            fn g ->
              g
-             |> text("DemoAll", fill: :gray)
+             |> text("DemoAll", fill: :gray, t: {0, 20})
+             |> demo_rect("", dims: {@vp_w, @vp_h})
            end,
-           t: {0, @vp_h + 20}
+           t: {0, @vp_h}
          )
 
   def init(_, _opts) do
