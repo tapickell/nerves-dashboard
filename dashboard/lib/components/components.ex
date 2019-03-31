@@ -26,6 +26,13 @@ defmodule Dashboard.Components do
     add_to_graph(g, Dashboard.Component.List, data, options)
   end
 
+  def demo_rect(graph, data, options \\ [])
+
+  def demo_rect(%Graph{} = g, data, options) do
+    Logger.info("DemoRect add_to_graph helper called: #{inspect(options)}")
+    add_to_graph(g, Dashboard.Component.DemoRect, data, options)
+  end
+
   def sys_info(graph, data, options \\ [])
 
   def sys_info(%Graph{} = g, data, options) do
@@ -38,6 +45,13 @@ defmodule Dashboard.Components do
   def ecu_info(%Graph{} = g, data, options) do
     Logger.info("EcuInfo add_to_graph helper called: #{inspect(options)}")
     add_to_graph(g, Dashboard.Component.Scene.EcuInfo, data, options)
+  end
+
+  def gpio_info(graph, data, options \\ [])
+
+  def gpio_info(%Graph{} = g, data, options) do
+    Logger.info("GpioInfo add_to_graph helper called: #{inspect(options)}")
+    add_to_graph(g, Dashboard.Component.Scene.GpioInfo, data, options)
   end
 
   defp add_to_graph(%Graph{} = g, mod, data, options) do

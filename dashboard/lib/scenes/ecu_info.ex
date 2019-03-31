@@ -11,7 +11,7 @@ defmodule Dashboard.Scene.EcuInfo do
              g
              |> ecu_info("EcuInfo")
            end,
-           t: {280, 30}
+           t: {0, 0}
          )
 
   def init(_, opts) do

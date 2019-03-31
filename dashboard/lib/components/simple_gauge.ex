@@ -5,8 +5,8 @@ defmodule Dashboard.Component.SimpleGauge do
 
   require Logger
 
-  # import Scenic.Primitives, only: [{:text, 3}, {:group, 2}]
   import Scenic.Primitives
+  import Dashboard.Components
 
   @moduledoc """
   Add a Simple Gauge to a graph
@@ -27,6 +27,7 @@ defmodule Dashboard.Component.SimpleGauge do
            g
            |> text("", id: :label)
            |> text("", id: :value, translate: {0, 20})
+           |> demo_rect("", dims: {400, 100})
          end)
 
   def info(data),

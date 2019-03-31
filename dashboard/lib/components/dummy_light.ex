@@ -14,6 +14,7 @@ defmodule Dashboard.Component.DummyLight do
          |> group(fn g ->
            g
            |> text("", id: :on_state, fill: :orange, t: {0, 0})
+           |> demo_rect("", dims: {400, 100}, color: :yellow)
          end)
 
   def info(data),
