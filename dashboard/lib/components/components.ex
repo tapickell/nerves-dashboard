@@ -33,6 +33,13 @@ defmodule Dashboard.Components do
     add_to_graph(g, Dashboard.Component.SysInfo, data, options)
   end
 
+  def ecu_info(graph, data, options \\ [])
+
+  def ecu_info(%Graph{} = g, data, options) do
+    Logger.info("EcuInfo add_to_graph helper called: #{inspect(options)}")
+    add_to_graph(g, Dashboard.Component.Scene.EcuInfo, data, options)
+  end
+
   defp add_to_graph(%Graph{} = g, mod, data, options) do
     Logger.info("Components add_to_graph helper called: #{inspect(options)}")
     mod.verify!(data)

@@ -1,6 +1,9 @@
-defmodule Dashboard.Scene.EcuInfo do
+defmodule Dashboard.Scene.DemoAll do
   use Scenic.Scene
   alias Scenic.Graph
+  alias Scenic.Sensor
+
+  require Logger
 
   import Scenic.Primitives
   import Dashboard.Components
@@ -9,12 +12,13 @@ defmodule Dashboard.Scene.EcuInfo do
          |> group(
            fn g ->
              g
-             |> ecu_info("EcuInfo")
+             |> text("DemoAll")
            end,
-           t: {280, 30}
+           t: {10, 30}
          )
 
   def init(_, opts) do
+
     {:ok, %{graph: @graph}, push: @graph}
   end
 end
