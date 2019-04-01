@@ -8,6 +8,9 @@ defmodule Dashboard.Component.Scene.GpioInfo do
   import Scenic.Primitives
   import Dashboard.Components
 
+  @graph_height 60
+  @top_margin 30
+
   @graph Graph.build(font_size: 22, font: :roboto_mono)
          |> sys_info("GpioInfo")
          |> group(
@@ -15,14 +18,21 @@ defmodule Dashboard.Component.Scene.GpioInfo do
              g
              |> simple_gauge("Ambient Temperature", sensor: :gpio_air_temperature, postfix: "°f")
            end,
-           t: {280, 30}
+           t: {280, @top_margin}
          )
          |> group(
            fn g ->
              g
              |> simple_gauge("Humidity Level", sensor: :gpio_humidity, postfix: "% RH")
            end,
-           t: {280, 90}
+           t: {280, @top_margin + @graph_height}
+         )
+         |> group(
+         fn g ->
+           g
+           |> simple_gauge("Barometric Pressure", sensor: :gpio_barometric_pressure, postfix: "inHG")
+         end,
+         t: {280, @graph_height * 2 + @top_margin}
          )
 
   def info(data),

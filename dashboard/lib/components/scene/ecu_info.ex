@@ -8,6 +8,9 @@ defmodule Dashboard.Component.Scene.EcuInfo do
   import Scenic.Primitives
   import Dashboard.Components
 
+  @graph_height 60
+  @top_margin 30
+
   @graph Graph.build()
          |> sys_info("EcuInfo")
          |> group(
@@ -15,14 +18,7 @@ defmodule Dashboard.Component.Scene.EcuInfo do
              g
              |> simple_gauge("ECU RPM", sensor: :ecu_rpm)
            end,
-           t: {280, 30}
-         )
-         |> group(
-           fn g ->
-             g
-             |> dummy_light("Whatevs")
-           end,
-           t: {10, 240}
+           t: {280, @top_margin}
          )
          |> group(
            fn g ->
@@ -32,7 +28,24 @@ defmodule Dashboard.Component.Scene.EcuInfo do
                postfix: "°f"
              )
            end,
-           t: {280, 90}
+           t: {280, @top_margin + @graph_height}
+         )
+         |> group(
+         fn g ->
+           g
+           |> simple_gauge("Oil Temperature",
+           sensor: :ecu_oil_temperature,
+           postfix: "°f"
+           )
+         end,
+         t: {280, @graph_height * 2 + @top_margin}
+         )
+         |> group(
+         fn g ->
+           g
+           |> dummy_light("Whatevs")
+         end,
+         t: {10, 240}
          )
 
   def info(data),

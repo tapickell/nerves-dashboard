@@ -60,7 +60,8 @@ defmodule Dashboard.MixProject do
       {:nerves_runtime, "~> 0.6"},
       {:nerves_init_gadget, "~> 0.4"},
       {:scenic_driver_nerves_rpi, "~> 0.10"},
-      {:scenic_driver_nerves_touch, "~> 0.10"}
+      {:scenic_driver_nerves_touch, "~> 0.10"},
+      {:circuits_uart, "~> 1.3"}
     ] ++ system(target)
   end
 

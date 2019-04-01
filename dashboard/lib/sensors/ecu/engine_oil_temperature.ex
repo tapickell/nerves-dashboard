@@ -1,15 +1,15 @@
-defmodule Dashboard.Sensor.Ecu.CoolantTemperature do
+defmodule Dashboard.Sensor.Ecu.OilTemperature do
   use GenServer
 
   alias Scenic.Sensor
 
-  @name :ecu_coolant_temperature
+  @name :ecu_oil_temperature
   @version "0.1.0"
   @description "Simulated temperature sensor"
-  # 05	5	1	Engine coolant temperature	-40	215	°C	{\displaystyle A-40} {\displaystyle A-40}
+  # 5C	92	1	Engine oil temperature	-40	210	°C	{\displaystyle A-40} {\displaystyle A-40}
 
   @timer_ms 400
-  @initial_temp 195.372
+  @initial_temp 295.372
   @amplitude 1.5
   @frequency 0.001
   @tau :math.pi() * 2

@@ -12,9 +12,11 @@ defmodule Dashboard.Sensor.Supervisor do
     children = [
       {Scenic.Sensor, nil},
       {Gpio.Humidity, nil},
+      {Gpio.Pressure, nil},
       {Gpio.AirTemperature, nil},
       {Ecu.DummyLight, nil},
       {Ecu.Rpm, nil},
+      {Ecu.OilTemperature, nil},
       {Ecu.CoolantTemperature, nil}
     ]
 
