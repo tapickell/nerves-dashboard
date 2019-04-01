@@ -45,8 +45,19 @@ defmodule Dashboard.Component.Scene.EcuInfo do
            g
            |> dummy_light("Whatevs")
          end,
-         t: {10, 240}
+         t: {0, 340}
          )
+
+         # |> group(
+         # fn g ->
+         #   g
+         #   |> simple_gauge("ECU Vehicle Speed",
+         #   sensor: :ecu_vehicle_speed,
+         #   postfix: "°f"
+         #   )
+         # end,
+         # t: {280, @graph_height * 3 + @top_margin}
+         # )
 
   def info(data),
     do: """

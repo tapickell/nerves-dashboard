@@ -6,6 +6,7 @@ defmodule Dashboard.Sensor.Ecu.Rpm do
   @name :ecu_rpm
   @version "0.1.0"
   @description "Simulated ecu rpm sensor"
+  # 0C	12	2	Engine RPM	0	16,383.75	rpm	{\displaystyle {\frac {256A+B}{4}}} {\displaystyle {\frac {256A+B}{4}}}
 
   @max_rpm 8500
   @min_rpm 725

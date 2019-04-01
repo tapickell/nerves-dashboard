@@ -13,13 +13,21 @@
 ***** DONE Dummy Light
       CLOSED: [2019-03-27 Wed 14:32]
 ***** TODO Code generator and clearer
-***** TODO Code Display Panel
-***** TODO Code generation triggers light
-***** TODO Code generation triggers code display
+***** DONE Code Display Panel
+      CLOSED: [2019-03-31 Sun 19:52]
+***** DONE Code generation triggers light
+      CLOSED: [2019-03-31 Sun 19:52]
+***** DONE Code generation triggers code display
+      CLOSED: [2019-03-31 Sun 19:52]
 *** TODO Weather Module
-**** TODO Temperature Outdoor and Indoor
-**** TODO Barometric Pressure
-**** TODO Humidity
+**** DONE Temperature Outdoor and Indoor
+     CLOSED: [2019-03-31 Sun 19:39]
+**** TODO MAX and MIN temp tracking over 24 hours
+**** DONE Barometric Pressure
+     CLOSED: [2019-03-31 Sun 19:52]
+***** TODO Pressure trending up or down indicator
+**** DONE Humidity
+     CLOSED: [2019-03-31 Sun 19:39]
 *** TODO Accessory Module
 **** TODO Secondary Battery Charge Level
 **** TODO Solar Panel Charging Level
@@ -58,3 +66,6 @@
 ** After reading the user should have a cancel codes button.
 ** This will cancel the CEL and Codes Display
 ** In theory, this could reset the codes in the ECU as well.
+* Sensors
+** Get ECU Data Sim on Arduino running
+** Get RPI3 talking to the Arduino

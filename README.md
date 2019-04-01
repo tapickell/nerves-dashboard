@@ -19,3 +19,9 @@ would disable the vehicles starting capabilities when the system has been locked
 GPS vehicle tracking and finder functionality, (this would require some outward network connection to trigger from and log data to).
 The GPS subsystem would require secondary battery connection to be always on to track and log coordinates even if vehicle is towed and not running. Parked vehicle collision detection, utilizing gyroscope and GPS information the vehicle could detect motion that would signify it was possibly in a collision while parked and notify the user.
 Notifications should be it's own module that other subsystems can use to notify the user of an event that is important to them.
+
+## Project Structure
+
+* Dashboard - Scenic UI and Sensors
+* Obd2Server - Backend that will talk to Ecu
+* TestEcu - An ECU simulator that can be run on separate device

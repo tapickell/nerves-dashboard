@@ -11,13 +11,14 @@ defmodule Dashboard.Sensor.Supervisor do
   def init(:ok) do
     children = [
       {Scenic.Sensor, nil},
-      {Gpio.Humidity, nil},
-      {Gpio.Pressure, nil},
-      {Gpio.AirTemperature, nil},
+      {Ecu.CoolantTemperature, nil},
       {Ecu.DummyLight, nil},
-      {Ecu.Rpm, nil},
       {Ecu.OilTemperature, nil},
-      {Ecu.CoolantTemperature, nil}
+      {Ecu.Rpm, nil},
+      # {Ecu.VehicleSpeed, nil},
+      {Gpio.AirTemperature, nil},
+      {Gpio.Humidity, nil},
+      {Gpio.Pressure, nil}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
