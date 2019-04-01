@@ -9,8 +9,8 @@ defmodule Dashboard.Sensor.Gpio.AirTemperature do
 
   @timer_ms 40000
   @initial_temp 65.3
-  @amplitude 0.5
-  @frequency 0.0001
+  @amplitude 10.5
+  @frequency 0.001
   @tau :math.pi() * 2
 
   def start_link(_), do: GenServer.start_link(__MODULE__, :ok, name: @name)
@@ -20,18 +20,18 @@ defmodule Dashboard.Sensor.Gpio.AirTemperature do
     Sensor.publish(@name, temp_to_binary(@initial_temp))
 
     {:ok, timer} = :timer.send_interval(@timer_ms, :tick)
-    {:ok, %{timer: timer, temperature: @initial_temp, t: 0}}
+    {:ok, %{timer: timer, temp: @initial_temp, t: 0}}
   end
 
-  def handle_info(:tick, %{t: t} = state) do
-    temp = @initial_temp + @amplitude * :math.sin(@tau * @frequency * t)
+  def handle_info(:tick, %{temp: temp, t: t} = state) do
+    new_temp = temp + @amplitude * :math.sin(@tau * @frequency * t)
 
     Sensor.publish(
       @name,
-      temp_to_binary(temp)
+      temp_to_binary(new_temp)
     )
 
-    {:noreply, %{state | t: t + 1}}
+    {:noreply, %{state | temp: new_temp, t: t + 1}}
   end
 
   defp temp_to_binary(temp) do

@@ -11,7 +11,7 @@ defmodule Dashboard.Sensor.Gpio.Humidity do
   @initial_level 40.0
   @max_level 100
   @min_level 5
-  @amplitude 120.5
+  @amplitude 20.5
   @frequency 0.001
   @tau :math.pi() * 2
 
@@ -41,7 +41,5 @@ defmodule Dashboard.Sensor.Gpio.Humidity do
     {:noreply, %{state | level: new_level, t: t + 1}}
   end
 
-  defp level_to_binary(level) do
-    :erlang.float_to_binary(level, decimals: 0)
-  end
+  defp level_to_binary(level), do: "#{level}"
 end

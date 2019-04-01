@@ -3,6 +3,7 @@ defmodule Dashboard.Component.SysInfo do
   alias Scenic.Graph
 
   import Scenic.Primitives
+  import Dashboard.Components
 
   @target System.get_env("MIX_TARGET") || "host"
 
@@ -37,6 +38,7 @@ defmodule Dashboard.Component.SysInfo do
            end,
            t: {10, 150}
          )
+         |> demo_rect("", dims: {200, 200})
 
   def info(data),
     do: """
