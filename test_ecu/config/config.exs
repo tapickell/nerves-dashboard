@@ -57,7 +57,7 @@ node_name = if Mix.env() != :prod, do: "test_ecu"
 config :nerves_init_gadget,
   ifname: "eth0",
   address_method: :dhcpd,
-  mdns_domain: "ecu.nerves.local",
+  mdns_domain: "ecu.local",
   node_name: node_name,
   node_host: :mdns_domain
 

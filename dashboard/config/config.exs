@@ -44,7 +44,7 @@ node_name = if Mix.env() != :prod, do: "dashboard"
 config :nerves_init_gadget,
   ifname: "eth0",
   address_method: :dhcpd,
-  mdns_domain: "dashboard.nerves.local",
+  mdns_domain: "dashboard.local",
   node_name: node_name,
   node_host: :mdns_domain
 
