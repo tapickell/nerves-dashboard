@@ -39,6 +39,7 @@ defmodule TestEcu.MixProject do
       {:shoehorn, "~> 0.4"},
       {:ring_logger, "~> 0.6"},
       {:toolshed, "~> 0.2"},
+      {:circuits_uart, "~> 1.3"},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6", targets: @all_targets},
@@ -46,7 +47,6 @@ defmodule TestEcu.MixProject do
 
       # Dependencies for specific targets
       {:nerves_system_rpi3, "~> 1.6", runtime: false, targets: :rpi3},
-      {:circuits_uart, "~> 1.3"}
     ]
   end
 end

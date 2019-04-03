@@ -24,8 +24,7 @@ defmodule TestEcu.Application do
 
   def children(_target) do
     [
-      # Starts a worker by calling: TestEcu.Worker.start_link(arg)
-      # {TestEcu.Worker, arg},
+      {TestEcu.Listener, []}
     ]
   end
 end
