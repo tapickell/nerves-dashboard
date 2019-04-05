@@ -46,7 +46,7 @@ defmodule TestEcu.MixProject do
       {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi3, "~> 1.6", runtime: false, targets: :rpi3},
+      {:nerves_system_rpi3, "~> 1.6", runtime: false, targets: :rpi3}
     ]
   end
 end

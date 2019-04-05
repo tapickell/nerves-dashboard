@@ -1,7 +1,4 @@
 defmodule TestEcu.PidProcessor do
-
-  @serial_end_char  0x0D
-  @serial_read_timeout 20000
   @max_pid 0xFF
   @pid_interval_offset 0x20
 
@@ -17,5 +14,4 @@ defmodule TestEcu.PidProcessor do
       "0170" => "Unsure"
     }
   end
-
 end

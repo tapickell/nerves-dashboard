@@ -1,42 +1,98 @@
 defmodule TestEcu.AtCommands do
-
   import Logger
 
-  def process(command) do
-    Logger.info("RX AT: #{command}")
-    with {:ok, command_post} <- command_post(command),
-         {:ok, response} <- process_command(command_post) do
-      Loggger.info("Command #{command} processed")
+  alias TestEcu.Serial
+
+  @id "ELM327 - TestEcu V0.0.1"
+  @desc "TestEcu OBD2, based on ELM"
+  # canbus 500k 11 bit protocol id for elm.
+  @protocol "6"
+
+  def atd() do
+    with :ok <- Serial.reset_defaults(),
+         :ok <- Serial.write("BUS INIT: ...") do
+      Serial.write_end_ok()
     end
   end
 
-  defp process_command(<<hx("D"), _::binary>>), do: atd()
-  defp process_command(<<hx("Z"), _::binary>>), do: atz()
-  defp process_command(<<hx("I"), _::binary>>), do: ati()
-  defp process_command(<<hx("E"), _::binary>> = command), do: atex(command)
-  defp process_command(<<hx("L"), _::binary>> = command), do: atlx(command)
-  defp process_command(<<hx("M"), _::binary>> = command), do: atmx(command)
-  defp process_command(<<hx("S"), hx("P"), _::binary>> = command), do: atspx(command)
-  defp process_command(<<hx("S"), _::binary>> = command), do: atsx(command)
-  defp process_command(<<hx("H"), _::binary>> = command), do: athx(command)
-  defp process_command(<<hx("A"), hx("T"), _::binary>> = command), do: atatx(command)
-  defp process_command(<<hx("D"), hx("P"), _::binary>> = command), do: atdpn(command)
-  defp process_command(<<hx("D"), hx("E"), hx("S"), _::binary>> = command), do: atdesc(command)
-  defp process_command(<<hx("@"), hx("1"), _::binary>> = command), do: atdesc(command)
-  defp process_command(<<hx("P"), hx("C"), _::binary>> = command), do: atpc(command)
-  defp process_command(command), do: {:error, "Unable to process command: #{command}"}
-
-  defp command_post(<<hx("A"), hx("T"), hx(" "), post::binary>>), do: {:ok, post}
-  defp command_post(<<hx("A"), hx("T"), post::binary>>), do: {:ok, post}
-  defp command_post(command) do
-    {:error, "Unable to process command: #{command}"}
+  def atz() do
+    with :ok <- Serial.set_echo(true) do
+      write_id_with_status(:idle)
+    end
   end
 
-  defp hx(char) do
-    {n, _} = char
-    |> Base.encode16(case: :lower)
-    |> Integer.parse(16)
-    n
+  def ati() do
+    write_id_with_status(:ready)
+  end
+
+  def atdesc() do
+    with :ok <- Serial.write(@desc) do
+      Serial.write_end_ok()
+    end
+  end
+
+  def atex(<<0x45, switch::binary>>) do
+    with :ok <- Serial.set_echo(bool_switch(switch)) do
+      Serial.write_end_ok()
+    end
+  end
+
+  def atmx(<<0x4d, switch::binary>>) do
+    with :ok <- Serial.set_memory(bool_switch(switch)) do
+      Serial.write_end_ok()
+    end
+  end
+
+  def atlx(<<0x4c, switch::binary>>) do
+    with :ok <- Serial.set_line_feeds(bool_switch(switch)) do
+      Serial.write_end_ok()
+    end
+  end
+
+  def atsx(<<0x53, switch::binary>>) do
+    with :ok <- Serial.set_white_spaces(bool_switch(switch)) do
+      Serial.write_end_ok()
+    end
+  end
+
+  def athx(<<0x48, switch::binary>>) do
+    with :ok <- Serial.set_headers(bool_switch(switch)) do
+      Serial.write_end_ok()
+    end
+  end
+
+  def atspx() do
+    # ATSPx Define protocol 0=auto
+    # TODO unsure whats supposed to happen here
+      Serial.write_end_ok()
+  end
+
+  def atdpn() do
+    with :ok <- Serial.write(@protocol) do
+      Serial.write_end_ok()
+    end
+  end
+
+  def atatx() do
+    # ATATx AT2 adaptive time control
+    # TODO unsure whats supposed to happen here
+    Serial.write_end_ok()
+  end
+
+  def atpc() do
+    # Terminate current diagnostic session, Protocol close
+    # TODO unsure whats supposed to happen here
+    Serial.write_end_ok()
+  end
+
+  defp bool_switch(<<0x30>>), do: false
+  defp bool_switch(<<0x31>>), do: true
+
+  defp write_id_with_status(status) do
+    with :ok <- Serial.set_status(status),
+         :ok <- Serial.write(@id) do
+      Serial.write_end_ok()
+    end
   end
 
   def commands() do
@@ -56,5 +112,4 @@ defmodule TestEcu.AtCommands do
       "ATPC" => "Terminates current diagnostic session. Protocol close"
     }
   end
-
 end

@@ -74,15 +74,18 @@ defmodule TestEcu.Listener do
     # send that to handler for command or query
     # return reply via UART.write
     case TestEcu.Responder.respond(data) do
-      {:ok, response} -> respond(pid, response)
+      {:ok, response} ->
+        respond(pid, response)
+
       {:error, error} ->
         Logger.warn("Error with response from data #{data}: #{error}")
     end
+
     {:noreply, state}
   end
 
   defp connect_to_port(pid, port_name) do
-    options = [speed: 115200, active: true]
+    options = [speed: 115_200, active: true]
 
     case UART.open(pid, port_name, options) do
       :ok ->
