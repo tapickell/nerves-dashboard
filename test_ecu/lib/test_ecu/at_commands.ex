@@ -37,13 +37,13 @@ defmodule TestEcu.AtCommands do
     end
   end
 
-  def atmx(<<0x4d, switch::binary>>) do
+  def atmx(<<0x4D, switch::binary>>) do
     with :ok <- Serial.set_memory(bool_switch(switch)) do
       Serial.write_end_ok()
     end
   end
 
-  def atlx(<<0x4c, switch::binary>>) do
+  def atlx(<<0x4C, switch::binary>>) do
     with :ok <- Serial.set_line_feeds(bool_switch(switch)) do
       Serial.write_end_ok()
     end
@@ -64,7 +64,7 @@ defmodule TestEcu.AtCommands do
   def atspx() do
     # ATSPx Define protocol 0=auto
     # TODO unsure whats supposed to happen here
-      Serial.write_end_ok()
+    Serial.write_end_ok()
   end
 
   def atdpn() do
