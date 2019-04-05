@@ -66,13 +66,18 @@ defmodule TestEcu.Listener do
     {:stop, :normal, state}
   end
 
-  def handle_info({:circuits_uart, _port, data}, state) do
+  def handle_info({:circuits_uart, _port, data}, %{pid: pid} = state) do
     data = UartHelper.uart_to_printable(data)
     Logger.info("UART Data rcvd: #{data}")
     # what to do from here?
     # verify data is expected command or query
     # send that to handler for command or query
     # return reply via UART.write
+    case TestEcu.Responder.respond(data) do
+      {:ok, response} -> respond(pid, response)
+      {:error, error} ->
+        Logger.warn("Error with response from data #{data}: #{error}")
+    end
     {:noreply, state}
   end
 

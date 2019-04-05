@@ -12,6 +12,7 @@ if RingLogger in Application.get_env(:logger, :backends, []) do
 
     RingLogger.next
   """
+  RingLogger.attach()
 end
 
 # Be careful when adding to this file. Nearly any error can crash the VM and
