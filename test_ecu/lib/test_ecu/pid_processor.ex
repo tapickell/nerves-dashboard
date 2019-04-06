@@ -4,6 +4,7 @@ defmodule TestEcu.PidProcessor do
 
   def pids() do
     %{
+      "0100" => "In mode 01 what pids are supported",
       "0105" => "Engine coolant temperature",
       "010B" => "Intake manifold abs pressure",
       "010C" => "Engine RPM",

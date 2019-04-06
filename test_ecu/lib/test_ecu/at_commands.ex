@@ -64,6 +64,8 @@ defmodule TestEcu.AtCommands do
   def atspx() do
     # ATSPx Define protocol 0=auto
     # TODO unsure whats supposed to happen here
+    # This is to talk to the auto detect protocol
+    # from the ecu
     Serial.write_end_ok()
   end
 
@@ -82,6 +84,11 @@ defmodule TestEcu.AtCommands do
   def atpc() do
     # Terminate current diagnostic session, Protocol close
     # TODO unsure whats supposed to happen here
+    Serial.write_end_ok()
+  end
+
+  def atrv() do
+    # Return system voltage
     Serial.write_end_ok()
   end
 
