@@ -1,5 +1,4 @@
 defmodule TestEcu.AtProcessor do
-
   alias TestEcu.AtCommands
 
   require TestEcu.Hex
@@ -33,9 +32,8 @@ defmodule TestEcu.AtProcessor do
     end
   end
 
-
   defp process_command(command) do
-    case  command_post(command) do
+    case command_post(command) do
       {:ok, post} ->
         case post do
           <<@d>> -> {AtCommands.atd(), command}
@@ -54,7 +52,9 @@ defmodule TestEcu.AtProcessor do
           <<@p, @c>> -> {AtCommands.atpc(command), command}
           _ -> command_error(command)
         end
-      {:error, command, error} -> {:error, command, error}
+
+      {:error, command, error} ->
+        {:error, command, error}
     end
   end
 

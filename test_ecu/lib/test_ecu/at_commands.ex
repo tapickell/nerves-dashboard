@@ -117,7 +117,7 @@ defmodule TestEcu.AtCommands do
       "ATRV" => "Return system voltage",
       "ATSPx" => "Define protocol 0=auto",
       "ATSx" => "printing spaces off=0 on=1",
-      "ATZ" => "reset all",
+      "ATZ" => "reset all"
     }
   end
 end
