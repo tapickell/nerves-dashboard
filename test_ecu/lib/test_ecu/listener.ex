@@ -8,10 +8,20 @@ defmodule TestEcu.Listener do
 
   @port_name "ttyAMA0"
 
+  # API
   def start_link(opts) do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
 
+  def close_connection(pid, opts \\ []) do
+    GenServer.call(pid, {:close, opts})
+  end
+
+  def respond(pid, response) do
+    GenServer.call(pid, {:respond, response})
+  end
+
+  # Callbacks
   def init(_opts) do
     Logger.info("init called in #{__MODULE__}")
 
@@ -32,17 +42,9 @@ defmodule TestEcu.Listener do
     end
   end
 
-  def close_connection(pid, opts \\ []) do
-    GenServer.call(pid, {:close, opts})
-  end
-
   def handle_call(:close, %{pid: pid} = state) do
     response = UART.close(pid)
     {:reply, response, state}
-  end
-
-  def respond(pid, response) do
-    GenServer.call(pid, {:respond, response})
   end
 
   def handle_cast({:respond, response}, %{pid: pid} = state) do
@@ -84,6 +86,7 @@ defmodule TestEcu.Listener do
     {:noreply, state}
   end
 
+  # Private
   defp connect_to_port(pid, port_name) do
     options = [speed: 115_200, active: true]
 
