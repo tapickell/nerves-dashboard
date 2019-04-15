@@ -1,0 +1,24 @@
+* Data flow
+** Listener
+*** Connect to serial port
+*** handle_info on circuits messages
+*** pass to Responder
+** Responder
+*** receive data from listener
+*** determine type of message
+*** if AT pass to AtProcessor
+*** if PID pass to PidProcessor
+** AtProcessor
+*** receives at data
+*** processes data to command
+*** calls correct AtCommands function
+** AtCommands
+*** functions for processing commands
+*** returns serial data as response
+**** does not interact with the connection directly
+**** just returns data back through call stack
+** Serial
+*** Right now this does nothing
+*** This could return proper serial data for responses
+*** Maybe this could be the write version of the Listener
+**** Not really sure at this point

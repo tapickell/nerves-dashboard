@@ -1,4 +1,9 @@
 defmodule TestEcu.Listener do
+  @moduledoc """
+  Listener makes a connection to the UART
+  and then listens for :cicuits_uart messages
+  """
+
   use GenServer
 
   alias Circuits.UART
@@ -6,6 +11,7 @@ defmodule TestEcu.Listener do
 
   import Logger
 
+  # TODO config var
   @port_name "ttyAMA0"
 
   # API
@@ -52,11 +58,6 @@ defmodule TestEcu.Listener do
     {:noreply, state}
   end
 
-  def handle_cast({:reply, char}, %{pid: pid} = state) do
-    UART.write(pid, UartHelper.key_to_uart(char))
-    {:noreply, state}
-  end
-
   def handle_info({:circuits_uart, _port, {:error, :einval}}, state) do
     """
     Encountered error with serial port communication.
@@ -71,10 +72,6 @@ defmodule TestEcu.Listener do
   def handle_info({:circuits_uart, _port, data}, %{pid: pid} = state) do
     data = UartHelper.uart_to_printable(data)
     Logger.info("UART Data rcvd: #{data}")
-    # what to do from here?
-    # verify data is expected command or query
-    # send that to handler for command or query
-    # return reply via UART.write
     case TestEcu.Responder.respond(data) do
       {:ok, response} ->
         respond(pid, response)
