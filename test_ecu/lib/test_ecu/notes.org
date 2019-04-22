@@ -1,9 +1,13 @@
 * Data flow
-** Listener
+** DashboardListener
+**** Could be a generic listener that has config for its port
+**** and for it's responder (other listener) to communicate with
 *** Connect to serial port
 *** handle_info on circuits messages
 *** pass to Responder
 ** Responder
+**** In the logger use case this would be the EcuListener
+*** Should be GenServer to handle cast calls
 *** receive data from listener
 *** determine type of message
 *** if AT pass to AtProcessor
@@ -22,3 +26,43 @@
 *** This could return proper serial data for responses
 *** Maybe this could be the write version of the Listener
 **** Not really sure at this point
+** Logger
+*** GenServer
+*** receives logs from other processes
+*** writes those logs out to the appropriate locations
+
+* Notes
+** Test Use Case
+# The main use case for this is as a test replacement for testing
+# the devices (RPI) communicating with something to get ECU data.
+# the listener will connect to the serial port that the
+# dashboard rpi will be connected to through gpio.
+# it will listen for a message over the serial connection
+# from the dashboard app. It should be an AtCommand or a PID
+# AtCommands are just commands and are for changing settings etc.
+# PIDs are for queries and return useful data to the dashboard.
+# The backend of this for testing should utilize test generators
+# to generate dummy data within the appropriate ranges and types.
+# this will be returned on PID calls. We should keep state changes
+# form the AT commands somewhere as they may effect the form of the
+# response data and some of the data we return form PIDs
+# For this use case I need to test and understand more about
+# the actual communication between the RPI and the ECU.
+# It seems like the communication is highly synchonized so
+# it should not be done in parrallel unless we want to introduce
+# more complexity. It should be receive message => respond with something
+# Possibly some of the things only expect an acknowledgement reposne
+# these things could be ack'd and then cast to a worker for processing
+# but PIDs messages that expect data back should return imediate responses
+
+** Logger Use Case
+# The secondary use case for this is as an attached logger for debugging.
+# The listener will attach to the serial port and wait for messages.
+# Another serial connection is made (USB) with a different listener module.
+# The secondary listener connects to the actual vehicle ECU via usb => OBDII
+# This listener listens for messages from the ecu and receives messages
+# passed through from the listener for the RPI.
+# Messages from the ECU will be sent in triplicate, to the rpi listener,
+# A raw logger genserver, and it's own responder which sould be a genserver
+# the messages to the logger and responder should be cast, we don't want
+# to hang the communication between the ECU and RPI.

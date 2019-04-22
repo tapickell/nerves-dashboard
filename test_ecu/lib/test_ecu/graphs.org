@@ -1,0 +1,88 @@
+#+name: example-node-table
+| *node*     | *label*        | *shape* | *fillcolor* |
+|------------+----------------+---------+-------------|
+| S_start    | start          | ellipse | green       |
+| S_fill     | fill form      |         |             |
+| S_send     | send form      |         |             |
+| S_complete | form complete? | diamond | yellow      |
+| S_do       | do task        |         | red         |
+| S_end      | end            | ellipse |             |
+
+#+name: example-graph
+| from       | to         | label |
+|------------+------------+-------|
+| S_start    | S_fill     |       |
+| S_fill     | S_send     |       |
+| S_send     | S_complete |       |
+| S_complete | S_fill     | N     |
+| S_complete | S_do       | Y     |
+| S_do       | S_end      |       |
+
+#+name: graph-from-tables
+#+HEADER: :var nodes=example-node-table graph=example-graph
+#+BEGIN_SRC emacs-lisp :file ~/example-diagram.png :colnames yes :exports results
+(org-babel-execute:dot
+(concat
+"digraph {\n"
+  "//rankdir=LR;\n" ;; remove comment characters '//' for horizontal layout; add for vertical layout
+  (mapconcat
+  (lambda (x)
+  (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"%s\"]"
+  (car x)
+  (nth 1 x)
+  (if (string= "" (nth 2 x)) "box" (nth 2 x))
+  (if (string= "" (nth 3 x)) "none" (nth 3 x))
+  )) nodes "\n")
+  "\n"
+  (mapconcat
+  (lambda (x)
+  (format "%s -> %s [taillabel=\"%s\"]"
+  (car x) (nth 1 x) (nth 2 x))) graph "\n")
+  "}\n") params)
+  #+END_SRC
+
+#+name: test-bash
+#+BEGIN_SRC bash
+ls
+#+END_SRC
+
+#+RESULTS: test-bash
+| application.ex   |
+| at_commands.ex   |
+| at_prcoessor.ex  |
+| graphs.org       |
+| hex.ex           |
+| listener.ex      |
+| notes.org        |
+| pid_processor.ex |
+| responder.ex     |
+| serial.ex        |
+| uart_helper.ex   |
+
+#+name: test-emacs-lisp
+#+HEADER: :var nodes=example-node-table graph=example-graph
+#+BEGIN_SRC emacs-lisp
+(print nodes)
+(print graph)
+#+END_SRC
+
+#+RESULTS: test-emacs-lisp
+| S_start    | S_fill     |   |
+| S_fill     | S_send     |   |
+| S_send     | S_complete |   |
+| S_complete | S_fill     | N |
+| S_complete | S_do       | Y |
+| S_do       | S_end      |   |
+
+#+name: test-python
+#+BEGIN_SRC python
+import time
+print("Hello, today's date is %s" % time.ctime())
+print('Two plus two is')
+return 2 + 2
+#+END_SRC
+
+#+name: test-ruby
+#+begin_src ruby
+"This file was last evaluated on #{Date.today}"
+#+end_src
