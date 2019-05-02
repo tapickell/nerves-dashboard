@@ -79,10 +79,58 @@ ls
 import time
 print("Hello, today's date is %s" % time.ctime())
 print('Two plus two is')
-return 2 + 2
 #+END_SRC
+
+#+RESULTS: test-python
+: 4
 
 #+name: test-ruby
 #+begin_src ruby
-"This file was last evaluated on #{Date.today}"
+puts(40 + 2)
+puts("The answer to everything")
+40 + 2
 #+end_src
+
+#+RESULTS: test-ruby
+: 42
+
+#+name: test-bash-agian
+#+BEGIN_SRC bash
+ls ~/.config/alacritty/alacritty.yml
+#+END_SRC
+
+#+RESULTS: test-bash-agian
+: /home/todd/.config/alacritty/alacritty.yml
+
+#+name: test-elixir
+#+BEGIN_SRC elixir
+tester = fn (stuff) ->
+  40 + 2
+end
+
+tester.("Heya")
+#+END_SRC
+
+#+RESULTS: test-elixir
+: [33mwarning: [0mvariable "stuff" is unused (if the variable is not meant to be used, prefix it with an underscore)
+:   iex:1
+:
+: 42
+
+
+#+BEGIN_SRC elixir :remsh name@node :sname console
+Node.self
+#+END_SRC
+
+#+RESULTS:
+: :nonode@nohost
+
+#+BEGIN_SRC erlang
+start() ->
+  io:format("hello blue world").
+#+END_SRC
+
+#+BEGIN_SRC erlang :module tryerlang
+start() ->
+  io:format("hello world").
+#+END_SRC
